@@ -64,7 +64,7 @@ const Address: NextPage<Props> = ({ address, fallback }) => {
   const { data: signer } = useSigner()
   const router = useRouter()
   useDataDog(accountData)
-  const userTokens = useUserTokens(null, [fallback.tokens], address)
+  const userTokens = useUserTokens(address)
   // const userActivity = useUserActivity([], address)
   const collections = useSearchCommunity()
   const sellPositions = useUserAsks([], address, collections)

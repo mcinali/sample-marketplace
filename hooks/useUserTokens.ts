@@ -13,9 +13,9 @@ type Tokens =
   paths['/users/{user}/tokens/v2']['get']['responses']['200']['schema']
 
 export default function useUserTokens(
-  collectionId: string | undefined,
-  fallbackData: Tokens[],
-  user: string | undefined
+  user: string | undefined,
+  collectionId?: string | undefined,
+  fallbackData?: Tokens[]
 ) {
   const { ref, inView } = useInView()
 
