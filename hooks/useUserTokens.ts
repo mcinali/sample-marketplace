@@ -79,8 +79,8 @@ const getKey: InfiniteKeyLoader = (
     offset: index * 20,
   }
 
-  if (COMMUNITY) query.community = collectionId
   if (COLLECTION) query.collection = collectionId
+  if (COMMUNITY) query.community = COMMUNITY
 
   const href = setParams(pathname, query)
 
