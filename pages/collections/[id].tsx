@@ -345,10 +345,7 @@ export const getStaticProps: GetStaticProps<{
 
   setParams(collectionUrl, collectionQuery)
 
-  const collectionRes = await fetch(collectionUrl.href, options)
-
-  const collection =
-    (await collectionRes.json()) as Props['fallback']['collection']
+  const collectionPromise = fetch(collectionUrl.href, options)
 
   // TOKENS
   const tokensUrl = new URL('/tokens/v4', RESERVOIR_API_BASE)
@@ -361,9 +358,25 @@ export const getStaticProps: GetStaticProps<{
 
   setParams(tokensUrl, tokensQuery)
 
-  const tokensRes = await fetch(tokensUrl.href, options)
+  const tokenPromise = fetch(tokensUrl.href, options)
 
-  const tokens = (await tokensRes.json()) as Props['fallback']['tokens']
+  const responses = await Promise.allSettled([
+    collectionPromise.then((response) => response.json()),
+    tokenPromise.then((response) => response.json()),
+  ])
+
+  let collection = [] as Props['fallback']['collection']
+  let tokens = [] as Props['fallback']['tokens']
+
+  if (responses) {
+    if (responses[0] && responses[0].status == 'fulfilled') {
+      collection = responses[0] as Props['fallback']['collection']
+    }
+
+    if (responses[1] && responses[1].status == 'fulfilled') {
+      tokens = responses[1] as Props['fallback']['tokens']
+    }
+  }
 
   return {
     props: { fallback: { collection, tokens }, id },
