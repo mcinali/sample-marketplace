@@ -132,7 +132,10 @@ const Hero: FC<Props> = ({ fallback, collectionId }) => {
     asker: floor?.maker,
   }
 
-  const hasTokenSetId = !!collection.data?.collection?.tokenSetId
+  const isSupported =
+    !!collection.data?.collection?.tokenSetId &&
+    !!collection.data?.collection?.collectionBidSupported
+
   const isAttributeModal = !!attribute.key && !!attribute.value
 
   const royalties: CollectionModalProps['royalties'] = {
@@ -215,7 +218,7 @@ const Hero: FC<Props> = ({ fallback, collectionId }) => {
             </>
           )}
           <div className="flex w-full flex-col justify-center gap-4 md:flex-row">
-            {hasTokenSetId &&
+            {isSupported &&
               (isAttributeModal ? (
                 <AttributeOfferModal
                   royalties={royalties}
