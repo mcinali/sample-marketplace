@@ -22,7 +22,7 @@ const FEE_RECIPIENT = process.env.NEXT_PUBLIC_FEE_RECIPIENT
 const OPENSEA_CROSS_POST = process.env.NEXT_PUBLIC_OPENSEA_CROSS_POST
 
 type Details = paths['/tokens/details/v4']['get']['responses']['200']['schema']
-type Collection = paths['/collection/v1']['get']['responses']['200']['schema']
+type Collection = paths['/collection/v2']['get']['responses']['200']['schema']
 
 type Props = {
   data:
