@@ -36,7 +36,7 @@ import useAttributes from 'hooks/useAttributes'
 const CHAIN_ID = process.env.NEXT_PUBLIC_CHAIN_ID
 
 // OPTIONAL
-const RESERVOIR_API_KEY = process.env.RESERVOIR_API_KEY
+const RESERVOIR_API_KEY = process.env.NEXT_PUBLIC_RESERVOIR_API_KEY
 
 const envBannerImage = process.env.NEXT_PUBLIC_BANNER_IMAGE
 
@@ -195,7 +195,7 @@ const Home: NextPage<Props> = ({ fallback, id }) => {
               </div>
               <div className="flex gap-4">
                 {router.query?.attribute_key ||
-                router.query?.attribute_key === '' ? (
+                  router.query?.attribute_key === '' ? (
                   <>
                     <SortMenuExplore setSize={collectionAttributes.setSize} />
                     <ViewMenu />
@@ -210,9 +210,8 @@ const Home: NextPage<Props> = ({ fallback, id }) => {
                   onClick={() => refreshCollection(id)}
                 >
                   <FiRefreshCcw
-                    className={`h-5 w-5 ${
-                      refreshLoading ? 'animate-spin-reverse' : ''
-                    }`}
+                    className={`h-5 w-5 ${refreshLoading ? 'animate-spin-reverse' : ''
+                      }`}
                   />
                 </button>
               </div>
@@ -241,7 +240,7 @@ const Home: NextPage<Props> = ({ fallback, id }) => {
               )}
             </div>
             {router.query?.attribute_key ||
-            router.query?.attribute_key === '' ? (
+              router.query?.attribute_key === '' ? (
               <ExploreTokens
                 attributes={collectionAttributes}
                 viewRef={refCollectionAttributes}

@@ -26,7 +26,7 @@ import TokenMedia from 'components/token/TokenMedia'
 // Reference: https://nextjs.org/docs/basic-features/environment-variables#exposing-environment-variables-to-the-browser
 // REQUIRED
 const RESERVOIR_API_BASE = process.env.NEXT_PUBLIC_RESERVOIR_API_BASE
-const RESERVOIR_API_KEY = process.env.RESERVOIR_API_KEY
+const RESERVOIR_API_KEY = process.env.NEXT_PUBLIC_RESERVOIR_API_KEY
 
 // OPTIONAL
 const META_TITLE = process.env.NEXT_PUBLIC_META_TITLE
@@ -86,14 +86,14 @@ const Index: NextPage<Props> = ({ collectionId }) => {
   const description = META_DESCRIPTION
     ? metadata.description(META_DESCRIPTION)
     : metadata.description(
-        `${collection.data?.collection?.metadata?.description as string}`
-      )
+      `${collection.data?.collection?.metadata?.description as string}`
+    )
 
   const image = META_OG_IMAGE
     ? metadata.image(META_OG_IMAGE)
     : token?.token?.image
-    ? metadata.image(token?.token?.image)
-    : null
+      ? metadata.image(token?.token?.image)
+      : null
 
   return (
     <Layout navbar={{}}>
