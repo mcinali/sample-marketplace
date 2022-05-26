@@ -1,7 +1,7 @@
 import FormatEth from 'components/FormatEth'
 import useSales from 'hooks/useSales'
 import { optimizeImage } from 'lib/optmizeImage'
-import { truncateFromMiddle } from 'lib/truncateText'
+import { truncateAddress } from 'lib/truncateText'
 import { DateTime } from 'luxon'
 import Link from 'next/link'
 import { FC, useEffect, useState } from 'react'
@@ -21,6 +21,13 @@ const CollectionActivityTable: FC<Props> = ({ collection }) => {
   const headings = ['Event', 'Item', 'Price', 'From', 'To', 'Time']
   const { sales, ref: swrInfiniteRef } = useSales(collection?.id)
   const isMobile = useMediaQuery('only screen and (max-width : 730px)')
+
+  useEffect(() => {
+    if (sales.data) {
+      sales.setSize(1)
+      sales.mutate()
+    }
+  }, [])
 
   const { data: salesData } = sales
   const flatSalesData = salesData?.flatMap((sale) => sale.sales) || []
@@ -46,14 +53,14 @@ const CollectionActivityTable: FC<Props> = ({ collection }) => {
         )}
 
         <tbody>
-          {flatSalesData.map((sale) => {
+          {flatSalesData.map((sale, i) => {
             if (!sale) {
               return null
             }
 
             return (
               <CollectionActivityTableRow
-                key={sale?.id}
+                key={`${sale?.id}-${i}`}
                 sale={sale}
                 collectionImage={collectionImage}
               />
@@ -105,8 +112,8 @@ const CollectionActivityTableRow: FC<CollectionActivityTableRowProps> = ({
   const [timeAgo, setTimeAgo] = useState(sale.timestamp || '')
 
   useEffect(() => {
-    setToShortAddress(truncateFromMiddle(sale?.from || '', 13))
-    setFromShortAddress(truncateFromMiddle(sale?.to || '', 13))
+    setToShortAddress(truncateAddress(sale?.to || ''))
+    setFromShortAddress(truncateAddress(sale?.from || ''))
     setTimeAgo(
       sale?.timestamp
         ? DateTime.fromSeconds(sale.timestamp).toRelative() || ''
